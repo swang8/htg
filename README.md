@@ -126,16 +126,20 @@ dir `pwd`/fastq/*gz | perl -ne 'chomp; $sam=$1 if /fastq\/(sample_\d+)/; print $
 more fastq.list
 ```
 2. use the script `pl_scripts/generate_bsub.pl`
-> Usage: 
->  perl ~/pl_scripts/generate_bsub.pl
->    -fq_list fastq_list.txt  # list of fastq files, first column is the accession name, second column is the full path to the fastq file (fastq or gzfastq);
->    -numJobs  10             # how many jobs to be submitted to the HPC
->    -jobName  myJob          # The name of job
->    -aln_pl   /home/wangsc/pl_scripts/align.pl
->    -call_pl  /home/wangsc/pl_scripts/unifiedgenotyper.pl
->    -ref      /home/wangsc/scratch_fast/ref_data/Dgenome/Dgenome.fa
->    -refindex /home/wangsc/scratch_fast/ref_data/Dgenome/Dgenome_bt2_index
+<pre>
+ Usage: 
+  perl ~/pl_scripts/generate_bsub.pl
+    -fq_list fastq_list.txt  # list of fastq files, first column is the accession name, second column is the full path to the fastq file (fastq or gzfastq);
+    -numJobs  10             # how many jobs to be submitted to the HPC
+    -jobName  myJob          # The name of job
+    -aln_pl   /home/wangsc/pl_scripts/align.pl
+    -call_pl  /home/wangsc/pl_scripts/unifiedgenotyper.pl
+    -ref      /home/wangsc/scratch_fast/ref_data/Dgenome/Dgenome.fa
+    -refindex /home/wangsc/scratch_fast/ref_data/Dgenome/Dgenome_bt2_index
 
+Once the bsub scripts are generated, run "ls *.bsub |perl submit_sequential_jobs.pl" to submit all the jobs.
+
+</pre>
 
 ```bash
 perl ~/pl_scripts/generate_bsub.pl -fq_list fastq.list.txt  -numJobs 10 -jobName HTG -call_pl ~/pl_scripts/unifiedgenotyper.pl -ref ./chr6_ref.fa -refindex /chr6_ref.fa 
