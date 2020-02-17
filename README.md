@@ -117,8 +117,34 @@ java -Xmx30G  -jar $GATK_jar -T HaplotypeCaller -R $ref_fasta -I sample_1_sorted
 <hr>
 
 ## Autoamte the whole process
-1. Generate bsub files for all the steps
-We will need to have 
+### Generate `bsub` files for all the steps
+1. Generate a text file that list all the samples
+```bash
+# first we will need to generate a text file that list all the samples
+dir `pwd`/fastq/*gz | perl -ne 'chomp; $sam=$1 if /fastq\/(sample_\d+)/; print $sam, "\t", $_, "\n"' >fastq.list.txt
+
+more fastq.list
+```
+2. use the script `pl_scripts/generate_bsub.pl`
+> Usage: 
+>  perl ~/pl_scripts/generate_bsub.pl
+>    -fq_list fastq_list.txt  # list of fastq files, first column is the accession name, second column is the full path to the fastq file (fastq or gzfastq);
+>    -numJobs  10             # how many jobs to be submitted to the HPC
+>    -jobName  myJob          # The name of job
+>    -aln_pl   /home/wangsc/pl_scripts/align.pl
+>    -call_pl  /home/wangsc/pl_scripts/unifiedgenotyper.pl
+>    -ref      /home/wangsc/scratch_fast/ref_data/Dgenome/Dgenome.fa
+>    -refindex /home/wangsc/scratch_fast/ref_data/Dgenome/Dgenome_bt2_index
 
 
+```bash
+perl ~/pl_scripts/generate_bsub.pl -fq_list fastq.list.txt  -numJobs 10 -jobName HTG -call_pl ~/pl_scripts/unifiedgenotyper.pl -ref ./chr6_ref.fa -refindex /chr6_ref.fa 
 
+ls *.bsub
+```
+> 0.qc.bsub  1.aln.bsub  2.proc.bsub  3.call.bsub
+
+3. submit the jobs 
+```bash
+bsub <0.qc.bsub
+```
