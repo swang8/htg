@@ -89,20 +89,20 @@ bowtie2 -x chr6_ref.fa -1 fastq/QC/sample_1_F.fq.gz -2 fastq/QC/sample_1_R.fq.gz
 ```
 
 ### 3. Processing steps
+```
 1. Sam to bam, samtools
-`samtools view -Sb sample_1.sam >sample_1.bam`
+samtools view -Sb sample_1.sam >sample_1.bam
 
 2. sort bam, samtools
-`samtools sort sample_1.bam -o sample_1_sorted.bam`
+samtools sort sample_1.bam -o sample_1_sorted.bam
 
 3. Add RG name if necessary, Picard
-`java -jar $picard_dir/AddOrReplaceReadGroups.jar I=sample_1_sorted.bam O=sample_1_sorted_addRG.bam PL=illumina PU=barcode SM=sample_1 LB=SeqCap ID=sample_1 VALIDATION_STRINGENCY=SILENT`
+java -jar $picard_dir/AddOrReplaceReadGroups.jar I=sample_1_sorted.bam O=sample_1_sorted_addRG.bam PL=illumina PU=barcode SM=sample_1 LB=SeqCap ID=sample_1 VALIDATION_STRINGENCY=SILENT
 
 4. Mark duplciate, Picard
-`java -Xmx15G -Djava.io.tmpdir=./  -jar $picard_dir/MarkDuplicates.jar I=$bam O=$out M=$merics_file REMOVE_DUPLICATES=true AS=true`
+java -Xmx15G -Djava.io.tmpdir=./  -jar $picard_dir/MarkDuplicates.jar I=$bam O=$out M=$merics_file REMOVE_DUPLICATES=true AS=true
 
 5. local realignment, GATK>
-```
  java -Xmx15G -jar $GATK_jar  -I $_ -R $ref_fasta -T RealignerTargetCreator -o $interval
  java -Xmx15G -jar $GATK_jar -I $_ -R $ref_fasta -T IndelRealigner -targetIntervals $interval -o $realn_bam
 ```
