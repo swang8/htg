@@ -31,7 +31,7 @@ ls
 ```
 ## Analysis steps:
 
-### 1. Prepare the reference genome
+### Prepare the reference genome
 ```
 module load picard/2.15.0-Java-1.8.0
 module load SAMtools/1.1-intel-2015B
