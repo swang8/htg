@@ -105,9 +105,11 @@ java -Xmx15G -Djava.io.tmpdir=./  -jar $picard_dir/MarkDuplicates.jar I=$bam O=$
 5. local realignment, GATK>
  java -Xmx15G -jar $GATK_jar  -I $_ -R $ref_fasta -T RealignerTargetCreator -o $interval
  java -Xmx15G -jar $GATK_jar -I $_ -R $ref_fasta -T IndelRealigner -targetIntervals $interval -o $realn_bam
-```
+
 6. Mapping Quality filtering, samtools
-`samtools view -h -q $maq $input`
+samtools view -h -q $maq $input
+
+```
 
 ### 4. Calling variations with GATK
 ```bash
