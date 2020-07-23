@@ -121,7 +121,7 @@ java -Xmx30G  -jar $GATK_jar -T HaplotypeCaller -R $ref_fasta -I sample_1_sorted
 
 <hr>
 
-## Autoamte the whole process
+## Automate the whole process
 ### Generate `bsub` files for all the steps
 1. Generate a text file that list all the samples
 ```bash
