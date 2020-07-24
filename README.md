@@ -55,6 +55,7 @@ module load Trimmomatic/0.38-Java-1.8.0
 java -jar $EBROOTTRIMMOMATIC/trimmomatic-0.38.jar PE -threads 2 $SCRATCH/genotyping/fastsq/sample_1_R1.fq.gz $SCRATCH/genotyping/fastsq/sample_1_R2.fq.gz  $SCRATCH/genotyping/fastsq/QC/sample_1_F.fq.gz  $SCRATCH/genotyping/fastsq/QC/sample_1_FU.fq.gz  $SCRATCH/genotyping/fastsq/QC/sample_1_R.fq.gz $SCRATCH/genotyping/fastsq/QC/sample_1_RU.fq.gz  ILLUMINACLIP:$EBROOTTRIMMOMATIC/adapters/TruSeq3-PE.fa:2:30:10 LEADING:3 TRAILING:3 SLIDINGWINDOW:4:15 MINLEN:36
 
 # QC for all samples
+mkdir fastq/QC
 for input1 in `dir fastq/*R1.fq.gz`; do
   sample_name=$(perl -e '$f=shift; print $1 if $f=~/fastq\/(sample_\d+)/' $input1)
   input2=${input1/R1/R2}
